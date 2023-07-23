@@ -8,13 +8,18 @@ let App = () => {
   let [apidt, setapidt] = useState("");
 
     async function loadApi(searchstring) {
+      try {
       let name="hello"
       // console.log(`https://www.googleapis.com/books/v1/volumes?q=${searchstring.search}`,typeof searchstring.search)
           let api1data = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchstring.search}`);
           let itemsarray1=api1data.data.items;
-          console.log(itemsarray1,searchstring);
-          setapidt(itemsarray1);
-          console.log(apidt,"hello");
+          let newarray = itemsarray1.filter((element,index)=>{return element.volumeInfo.imageLinks && element.volumeInfo.imageLinks.thumbnail })
+          setapidt(newarray);
+      }
+      catch {
+        alert("Not found.Please try different book name!")
+        console.error("Some error occurred")
+      }
         } 
 
   return (
