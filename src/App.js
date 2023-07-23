@@ -1,9 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState} from 'react';
+import Bookslist from './Components/Bookslist';
+import Navbar from './Components/Navbar';
+import axios from 'axios';
 
-function App() {
+let App = () => {
+
+  let [apidt, setapidt] = useState("");
+
+    async function loadApi(searchstring) {
+      let name="hello"
+      // console.log(`https://www.googleapis.com/books/v1/volumes?q=${searchstring.search}`,typeof searchstring.search)
+          let api1data = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchstring.search}`);
+          let itemsarray1=api1data.data.items;
+          console.log(itemsarray1,searchstring);
+          setapidt(itemsarray1);
+          console.log(apidt,"hello");
+        } 
+
   return (
-    <h1>Guduru Kiran Sai</h1>
+    <div>
+    <Navbar loadApi={loadApi}/>
+   <Bookslist apidt={apidt} setapidt={setapidt}/>
+   </div>
   )
 }
 
